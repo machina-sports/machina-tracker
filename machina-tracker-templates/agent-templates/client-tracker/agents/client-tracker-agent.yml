@@ -1,0 +1,9 @@
+agent:
+  name: client-tracker-agent
+  description: "An agent to keep client-card documents up-to-date."
+  workflows:
+    - name: track_all_clients
+      description: "Fetches all client-cards and runs compose-client-card for each."
+  schedule: "0 3 * * *" # Runs every day at 3 AM
+  initial_context: {}
+  context_variables: []

@@ -1,0 +1,24 @@
+workflow:
+  name: summarize-client-signals
+  description: "Summarizes recent events into a structured Signal array for a client."
+  inputs:
+    - name: client_data
+      type: object
+      description: "An object containing all data for a client (performance, social, news)."
+      required: true
+  tasks:
+    - name: summarize_signals_prompt
+      type: prompt
+      connector:
+        name: machina-prompts
+        command: invoke-prompt
+        prompt_name: summarize-signals
+      inputs:
+        club_data: "json.dumps($.get('client_data'))"
+      outputs:
+        signals: "$.get('result.signals')"
+        workflow-status: "$.get('result.signals') != None"
+
+# Note: The `json.dumps` is a conceptual representation.
+# In a real Machina workflow, you would pass the object directly
+# and the prompt task would serialize it.

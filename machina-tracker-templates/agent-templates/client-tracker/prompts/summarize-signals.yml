@@ -1,0 +1,38 @@
+prompt:
+  name: summarize-signals
+  description: "Summarizes recent events into a structured Signal array."
+  instruction: |
+    Based on the provided club data (recent performance, news mentions, social media activity), generate a list of key signals.
+    Each signal should be a concise summary of a significant event or trend.
+    Categorize each signal into one of the following categories: partner-activation, comms-marketing, viral, milestone, performance.
+
+    Respond with a JSON array of Signal objects, matching this schema:
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "category": { "type": "string", "enum": ["partner-activation", "comms-marketing", "viral", "milestone", "performance"] },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "metadata": { "type": "object" }
+        },
+        "required": ["id", "category", "title", "description", "timestamp"]
+      }
+    }
+
+    Here is the data to analyze:
+    ---
+    {club_data}
+    ---
+  model_config:
+    - model: gemini-1.5-pro
+      response_format: json
+  inputs:
+    - name: club_data
+      type: string
+  outputs:
+    - name: signals
+      type: array

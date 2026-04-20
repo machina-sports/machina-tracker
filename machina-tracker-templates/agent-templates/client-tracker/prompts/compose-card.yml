@@ -1,0 +1,64 @@
+prompt:
+  name: compose-card
+  description: "Calculates the heat score for a club based on various data points."
+  instruction: |
+    You are a sports analyst. Your task is to calculate a 'heat score' for a football club based on the provided data. The heat score is an integer between 0 and 100, representing the club's current momentum and public interest.
+
+    The score is composed of five components. For each component, provide an integer score within its specified range and a brief justification.
+
+    1.  **performance_momentum** (0-30 points):
+        -   Analyze recent match results (wins, losses, draws), goal difference, and form (e.g., winning streaks, unbeaten runs).
+        -   Consider the importance of the matches (e.g., league, cup, derby).
+        -   Data: {recent_performance}
+
+    2.  **social_buzz** (0-25 points):
+        -   Evaluate the change in Instagram followers, engagement rate, and recent post sentiment.
+        -   High follower growth, high engagement, and positive sentiment should result in a higher score.
+        -   Data: {social_pulse}
+
+    3.  **milestone_proximity** (0-20 points):
+        -   Assess upcoming high-stakes matches (e.g., finals, top-of-the-table clashes, rivalries).
+        -   Consider if the club is close to winning a title or achieving a significant milestone (e.g., qualifying for a major tournament).
+        -   Data: {upcoming_fixtures}
+
+    4.  **media_coverage** (0-15 points):
+        -   Evaluate the volume and sentiment of recent news mentions.
+        -   Higher volume of positive or neutral news stories increases the score.
+        -   Data: {news_mentions}
+
+    5.  **tier_alignment** (0-10 points):
+        -   This score is provided externally and reflects the club's alignment with a brand's tiering strategy.
+        -   Data: {tier_alignment_score}
+
+    Based on your analysis, provide a JSON object with the breakdown of the scores and the total heat score. The final heat score is the sum of the five component scores.
+
+    Example Response Format:
+    {
+      "heat_score_breakdown": {
+        "performance_momentum": {"score": 25, "justification": "Won 4 of last 5 league matches, including a key derby."},
+        "social_buzz": {"score": 18, "justification": "Gained 50k followers this week with high engagement on match-day posts."},
+        "milestone_proximity": {"score": 15, "justification": "Cup final next week."},
+        "media_coverage": {"score": 10, "justification": "High volume of positive news mentions after the recent win."},
+        "tier_alignment": {"score": 8, "justification": "Club is a tier 1 partner."}
+      },
+      "last_heat_score": 76
+    }
+  model_config:
+    - model: gemini-1.5-pro
+      response_format: json
+  inputs:
+    - name: recent_performance
+      type: string
+    - name: social_pulse
+      type: string
+    - name: upcoming_fixtures
+      type: string
+    - name: news_mentions
+      type: string
+    - name: tier_alignment_score
+      type: integer
+  outputs:
+    - name: heat_score_breakdown
+      type: object
+    - name: last_heat_score
+      type: integer

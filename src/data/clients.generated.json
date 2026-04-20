@@ -1,0 +1,102 @@
+[
+  {
+    "id": "459",
+    "name": "Grêmio",
+    "slug": "gremio",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/459.svg",
+    "externalIds": { "footballData": 459 }
+  },
+  {
+    "id": "614",
+    "name": "Flamengo",
+    "slug": "flamengo",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/614.svg",
+    "externalIds": { "footballData": 614 }
+  },
+  {
+    "id": "621",
+    "name": "Corinthians",
+    "slug": "corinthians",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/621.svg",
+    "externalIds": { "footballData": 621 }
+  },
+  {
+    "id": "620",
+    "name": "Palmeiras",
+    "slug": "palmeiras",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/620.svg",
+    "externalIds": { "footballData": 620 }
+  },
+  {
+    "id": "627",
+    "name": "São Paulo",
+    "slug": "sao-paulo",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/627.svg",
+    "externalIds": { "footballData": 627 }
+  },
+  {
+    "id": "458",
+    "name": "Internacional",
+    "slug": "internacional",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/458.svg",
+    "externalIds": { "footballData": 458 }
+  },
+  {
+    "id": "612",
+    "name": "Cruzeiro",
+    "slug": "cruzeiro",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/612.svg",
+    "externalIds": { "footballData": 612 }
+  },
+  {
+    "id": "613",
+    "name": "Atlético-MG",
+    "slug": "atletico-mg",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/613.svg",
+    "externalIds": { "footballData": 613 }
+  },
+  {
+    "id": "615",
+    "name": "Botafogo",
+    "slug": "botafogo",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/615.svg",
+    "externalIds": { "footballData": 615 }
+  },
+  {
+    "id": "618",
+    "name": "Fluminense",
+    "slug": "fluminense",
+    "sport": "football",
+    "league": "Brasileirão Série A",
+    "country": "BRA",
+    "crestUrl": "https://crests.football-data.org/618.svg",
+    "externalIds": { "footballData": 618 }
+  }
+]

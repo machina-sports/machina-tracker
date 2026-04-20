@@ -1,0 +1,21 @@
+workflow:
+  name: classify-branded-posts
+  description: "Classifies a list of Instagram posts as BRANDED or PERSONAL."
+  inputs:
+    - name: posts
+      type: array
+      description: "An array of post objects, each with a 'text' field."
+      required: true
+  tasks:
+    - name: classify_posts_loop
+      type: prompt
+      foreach: "$.get('posts')"
+      connector:
+        name: machina-prompts
+        command: invoke-prompt
+        prompt_name: classify-post
+      inputs:
+        post_text: "$.each.get('text')"
+      outputs:
+        post_classifications: "$.result"
+        workflow-status: "$.get('result') != ''"

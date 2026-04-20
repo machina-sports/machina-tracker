@@ -1,0 +1,18 @@
+connector:
+  name: social-media-connector
+  description: "A placeholder connector for fetching social media data."
+  filetype: 'pyscript'
+  filename: 'social_media_connector.py'
+  functions:
+    - command: get-instagram-metrics
+      description: "Fetches Instagram metrics for a given handle."
+      inputs:
+        - name: handle
+          type: string
+      outputs:
+        - name: followers
+          type: integer
+        - name: engagement_rate
+          type: float
+        - name: recent_posts
+          type: array

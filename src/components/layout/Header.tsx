@@ -1,14 +1,22 @@
+'use client';
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/src/components/ui/button';
 import Link from 'next/link';
+import { useAppSelector } from '@/src/lib/redux/hooks';
+import { selectAllClients } from '@/src/lib/redux/slices/clientsSlice';
 
 const Header = () => {
+  const clients = useAppSelector(selectAllClients);
+
   return (
     <header className="flex items-center justify-between p-4 bg-neutral-100 border-b border-neutral-200">
       <div className="flex items-center gap-4">
         {/* Placeholder for Logo */}
         <div className="w-10 h-10 bg-neutral-300 rounded-full"></div>
         <h1 className="text-xl font-bold">MACHINA TRACKER</h1>
+        <div className="bg-neutral-200 text-neutral-700 text-xs font-bold px-2 py-1 rounded-full">
+            {clients.length} CLIENTS
+        </div>
       </div>
       <div className="flex items-center gap-2">
         <span className="font-semibold">CLIENT PULSE</span>

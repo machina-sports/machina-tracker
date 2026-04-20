@@ -1,0 +1,7 @@
+workflow:
+  name: temp-get-connector-info
+  tasks:
+    - name: get_info
+      type: connector
+      connector:
+        name: machina-football-data

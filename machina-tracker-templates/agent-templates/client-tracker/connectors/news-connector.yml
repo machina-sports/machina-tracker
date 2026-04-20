@@ -1,0 +1,14 @@
+connector:
+  name: news-connector
+  description: "A placeholder connector for fetching news articles."
+  filetype: 'pyscript'
+  filename: 'news_connector.py'
+  functions:
+    - command: search-news
+      description: "Searches for news articles mentioning a query."
+      inputs:
+        - name: query
+          type: string
+      outputs:
+        - name: articles
+          type: array
