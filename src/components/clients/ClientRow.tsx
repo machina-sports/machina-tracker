@@ -27,9 +27,10 @@ const formatRelativeTime = (isoDate: string) => {
 
 export function ClientRow({ client, pulse, isSelected, onClick }: ClientRowProps) {
   return (
-    <div
+    <button
+      type="button"
       className={cn(
-        'flex items-center p-3 cursor-pointer hover:bg-neutral-100 rounded-lg transition-colors',
+        'flex items-center p-3 cursor-pointer hover:bg-neutral-100 rounded-lg transition-colors w-full text-left',
         isSelected && 'bg-neutral-900 text-white hover:bg-neutral-800'
       )}
       onClick={onClick}
@@ -70,6 +71,6 @@ export function ClientRow({ client, pulse, isSelected, onClick }: ClientRowProps
             </div>
         </div>
       )}
-    </div>
+    </button>
   );
 }
