@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: machina-frontend-boilerplate
+  labels:
+    app: machina-frontend-boilerplate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: machina-frontend-boilerplate
+  template:
+    metadata:
+      labels:
+        app: machina-frontend-boilerplate
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-secret
+      containers:
+        - name: machina-frontend-boilerplate
+          image: REPLACE_WITH_REGISTRY_URL/machina-frontend-boilerplate:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: MACHINA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: machina-app-secrets
+                  key: MACHINA_API_KEY
+            - name: MACHINA_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: machina-app-secrets
+                  key: MACHINA_API_URL
+
