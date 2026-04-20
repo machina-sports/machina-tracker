@@ -43,8 +43,20 @@ export async function getSocialReport(clientId: string): Promise<SocialReport> {
     throw new Error(`Failed to fetch social report data: ${response.statusText}`);
   }
 
-  const result = await response.json();
-  const posts = result.data.map((doc: any) => doc.data);
+  type PostDoc = {
+    id: string;
+    caption: string;
+    thumbnail_url: string;
+    engagement_count: number;
+    post_url: string;
+    is_branded: boolean;
+    views?: number;
+    likes?: number;
+    comments?: number;
+  };
+
+  const result = (await response.json()) as { data: Array<{ data: PostDoc }> };
+  const posts: PostDoc[] = result.data.map((doc) => doc.data);
 
   if (posts.length === 0) {
     return {
