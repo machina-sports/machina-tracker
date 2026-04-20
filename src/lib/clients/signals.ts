@@ -1,6 +1,6 @@
 
 import { ClientPulse, Signal } from '@/src/lib/redux/slices/clientsSlice';
-import { CLIENTS } from './roster';
+import { getClientRoster } from './roster';
 
 // Simple hash function to generate deterministic-ish values
 const simpleHash = (str: string): number => {
@@ -69,7 +69,8 @@ export async function getClientPulse(clientId: string): Promise<ClientPulse> {
   // This is a stubbed implementation as per the instructions.
   // It returns deterministic placeholders derived from the clientId.
   // In a future step, this will be replaced with a real call to a Machina workflow.
-  const client = CLIENTS.find(c => c.id === clientId);
+  const roster = await getClientRoster();
+  const client = roster.find((c) => c.id === clientId);
   if (!client) {
     throw new Error(`Client with id ${clientId} not found`);
   }
