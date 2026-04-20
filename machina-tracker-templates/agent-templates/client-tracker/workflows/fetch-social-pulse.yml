@@ -1,0 +1,18 @@
+workflow:
+  name: fetch-social-pulse
+  description: "Fetches social media pulse for a given club."
+  inputs:
+    - name: instagram_handle
+      type: string
+      required: true
+  tasks:
+    - name: get_instagram_data
+      type: connector
+      connector:
+        name: social-media-connector
+        command: get-instagram-metrics
+      inputs:
+        handle: "$.get('instagram_handle')"
+      outputs:
+        instagram_data: "$.get('result')"
+        workflow-status: "$.get('result') != ''"

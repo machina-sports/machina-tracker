@@ -1,0 +1,49 @@
+setup:
+  title: "Machina Tracker - Client Pulse"
+  description: "A template for tracking club-centric data, including heat scores, social pulse, and news mentions."
+  category:
+    - custom-templates
+  estimatedTime: 5 minutes
+  features:
+    - "Club-centric heat score calculation"
+    - "Social media pulse tracking (Instagram)"
+    - "Recent performance and news mention aggregation"
+    - "Branded vs. personal post classification"
+  integrations:
+    - "machina-documents"
+    - "football-data-skill"
+  status: available
+  value: "agent-templates/client-tracker"
+  version: 1.0.0
+
+datasets:
+  - type: "workflow"
+    path: "workflows/track-client-roster.yml"
+  - type: "workflow"
+    path: "workflows/fetch-social-pulse.yml"
+  - type: "workflow"
+    path: "workflows/fetch-recent-performance.yml"
+  - type: "workflow"
+    path: "workflows/fetch-news-mentions.yml"
+  - type: "workflow"
+    path: "workflows/compose-client-card.yml"
+  - type: "workflow"
+    path: "workflows/classify-branded-posts.yml"
+  - type: "workflow"
+    path: "workflows/summarize-client-signals.yml"
+  - type: "workflow"
+    path: "workflows/track_all_clients.yml"
+  - type: "agent"
+    path: "agents/client-tracker-agent.yml"
+  - type: "prompt"
+    path: "prompts/classify-post.yml"
+  - type: "prompt"
+    path: "prompts/summarize-signals.yml"
+  - type: "prompt"
+    path: "prompts/compose-card.yml"
+  - type: "connector"
+    path: "connectors/social-media-connector.yml"
+  - type: "connector"
+    path: "connectors/football-data-skill-connector.yml"
+  - type: "connector"
+    path: "connectors/news-connector.yml"

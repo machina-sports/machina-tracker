@@ -1,0 +1,18 @@
+workflow:
+  name: fetch-recent-performance
+  description: "Fetches recent performance data for a club."
+  inputs:
+    - name: club_name
+      type: string
+      required: true
+  tasks:
+    - name: get_fixture_data
+      type: connector
+      connector:
+        name: football-data-skill-connector
+        command: get-club-fixtures
+      inputs:
+        club_name: "$.get('club_name')"
+      outputs:
+        performance_data: "$.get('result')"
+        workflow-status: "$.get('result') != ''"

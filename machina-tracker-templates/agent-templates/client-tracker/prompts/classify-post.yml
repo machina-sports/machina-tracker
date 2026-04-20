@@ -1,0 +1,27 @@
+prompt:
+  name: classify-post
+  description: "Classifies an Instagram post as BRANDED or PERSONAL."
+  instruction: |
+    Analyze the provided Instagram post text and determine if it is a BRANDED post or a PERSONAL post.
+
+    A BRANDED post is one that is primarily focused on promoting a product, service, or sponsor. Look for keywords like "ad", "sponsored", "partner", hashtags of brands, or language that sounds like marketing copy.
+
+    A PERSONAL post is one that is primarily about the user's life, opinions, or activities, without a clear promotional intent.
+
+    Respond with a single word: BRANDED or PERSONAL.
+
+    Post text:
+    ---
+    {post_text}
+    ---
+  model_config:
+    - model: gemini-1.5-flash
+      parameters:
+        temperature: 0.2
+        max_output_tokens: 10
+  inputs:
+    - name: post_text
+      type: string
+  outputs:
+    - name: classification
+      type: string

@@ -292,3 +292,16 @@ For complete deployment instructions, see the [Deployment Guide](/deploy) page o
 ## 📞 Support
 
 Contact: mateus.pinheiro@machina.gg
+
+---
+
+## Machina Tracker Configuration
+
+This project is configured to use a Machina project for data.
+
+- **Organization**: `Machina Sports`
+- **Project**: `Machina Tracker — Client Pulse`
+- **API Key Name**: `machina-tracker-client-pulse-service-key` (This is the name of the key, not the value).
+
+The API key value should be stored in `.env.local` as `MACHINA_API_KEY` and in the deployment environment.
+The Client API URL should be stored as `MACHINA_API_URL`.

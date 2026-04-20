@@ -1,0 +1,25 @@
+workflow:
+  name: track_all_clients
+  description: "Fetches all client-cards and runs compose-client-card for each."
+  tasks:
+    - name: get_all_client_documents
+      type: document
+      config:
+        action: search
+      connector:
+        name: machina-documents
+      inputs:
+        document_name: "'client-card'"
+        filters: {}
+      outputs:
+        client_docs: "$.get('result.data')"
+
+    - name: compose_cards_for_all_clients
+      type: workflow
+      foreach: "$.get('client_docs')"
+      workflow_name: compose-client-card
+      inputs:
+        client_id: "$.each.get('externalIds.machinaId')"
+      outputs:
+        composition_results: "$.result"
+        workflow-status: "$.get('result') != ''"

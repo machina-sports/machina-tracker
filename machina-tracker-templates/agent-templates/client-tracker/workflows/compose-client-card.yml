@@ -1,0 +1,81 @@
+workflow:
+  name: compose-client-card
+  description: "Composes the client card, calculating heat score and other metrics."
+  inputs:
+    - name: client_id
+      type: string
+      required: true
+    - name: tier_alignment_score
+      type: integer
+      default: 8
+  tasks:
+    - name: get_client_document
+      type: document
+      config:
+        action: get
+      connector:
+        name: machina-documents
+      inputs:
+        document_name: "'client-card'"
+        document_id: "$.get('client_id')"
+      outputs:
+        client_doc: "$.get('result')"
+
+    - name: fetch_performance
+      type: workflow
+      workflow_name: fetch-recent-performance
+      inputs:
+        club_name: "$.get('client_doc.name')"
+      outputs:
+        performance_data: "$.get('result.performance_data')"
+
+    - name: fetch_social
+      type: workflow
+      workflow_name: fetch-social-pulse
+      inputs:
+        instagram_handle: "$.get('client_doc.externalIds.instagram')"
+      outputs:
+        social_data: "$.get('result.instagram_data')"
+
+    - name: fetch_news
+      type: workflow
+      workflow_name: fetch-news-mentions
+      inputs:
+        club_name: "$.get('client_doc.name')"
+      outputs:
+        news_data: "$.get('result.news_data')"
+
+    - name: compose_heat_score
+      type: prompt
+      connector:
+        name: machina-prompts
+        command: invoke-prompt
+        prompt_name: compose-card
+      inputs:
+        recent_performance: "json.dumps($.get('performance_data.recent_matches'))"
+        social_pulse: "json.dumps($.get('social_data'))"
+        upcoming_fixtures: "json.dumps($.get('performance_data.upcoming_fixtures'))"
+        news_mentions: "json.dumps($.get('news_data.articles'))"
+        tier_alignment_score: "$.get('tier_alignment_score')"
+      outputs:
+        card_data: "$.get('result')"
+
+    - name: update_client_document
+      type: document
+      config:
+        action: update
+      connector:
+        name: machina-documents
+      inputs:
+        document_name: "'client-card'"
+        document_id: "$.get('client_id')"
+        document_data: |
+          {
+            'last_heat_score': $.get('card_data.last_heat_score'),
+            'heat_score_breakdown': $.get('card_data.heat_score_breakdown'),
+            'heat_score_history': "$.get('client_doc.heat_score_history', []) + [{'date': 'now()', 'score': $.get('card_data.last_heat_score')}]",
+            'instagram_data': $.get('social_data')
+          }
+      outputs:
+        update_status: "$.get('result')"
+        workflow-status: "$.get('result.success')"

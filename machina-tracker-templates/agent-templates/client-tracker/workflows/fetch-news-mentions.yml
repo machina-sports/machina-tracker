@@ -1,0 +1,18 @@
+workflow:
+  name: fetch-news-mentions
+  description: "Fetches news mentions for a given club."
+  inputs:
+    - name: club_name
+      type: string
+      required: true
+  tasks:
+    - name: get_news_data
+      type: connector
+      connector:
+        name: news-connector
+        command: search-news
+      inputs:
+        query: "$.get('club_name')"
+      outputs:
+        news_data: "$.get('result')"
+        workflow-status: "$.get('result') != ''"

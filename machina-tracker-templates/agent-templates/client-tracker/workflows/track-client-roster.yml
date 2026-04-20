@@ -1,0 +1,22 @@
+workflow:
+  name: track-client-roster
+  description: "Creates or updates client-card documents for a list of clubs."
+  inputs:
+    - name: clubs
+      type: array
+      description: "List of clubs to track. Each club is an object with name, country, league, and externalIds."
+      required: true
+  tasks:
+    - name: save_club_documents
+      type: document
+      config:
+        action: save
+      connector:
+        name: machina-documents
+      inputs:
+        documents: "$.get('clubs')"
+        document_name: "'client-card'"
+        document_id_field: "'externalIds.machinaId'" # Assuming a unique ID per club is provided
+      outputs:
+        saved_documents: "$.get('result')"
+        workflow-status: "$.get('result') != ''"

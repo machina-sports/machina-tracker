@@ -1,0 +1,19 @@
+connector:
+  name: football-data-skill-connector
+  description: "A connector for the football-data skill."
+  # This is a conceptual connector. In a real scenario, this would be a pre-installed
+  # skill connector or a REST API connector pointing to the skill's endpoint.
+  # For the purpose of this template, we will mock the output.
+  filetype: 'pyscript'
+  filename: 'football_data_skill_connector.py'
+  functions:
+    - command: get-club-fixtures
+      description: "Fetches recent and upcoming fixtures for a club."
+      inputs:
+        - name: club_name
+          type: string
+      outputs:
+        - name: recent_matches
+          type: array
+        - name: upcoming_fixtures
+          type: array
