@@ -19,11 +19,27 @@ export interface Client {
   };
 }
 
+export interface Signal {
+  id: string;
+  category: 'partner-activation' | 'comms-marketing' | 'viral' | 'milestone' | 'performance';
+  headline: string;
+  body: string;
+  publishedAt: string;
+  sourceUrl?: string;
+}
+
 export interface ClientPulse {
-    heatScore: number;
-    heatDelta: number;
-    lastAnalyzedAt: string;
-    latestSignal: string;
+  heatScore: number;
+  heatDelta: number;
+  lastAnalyzedAt: string;
+  signals: Signal[];
+  instagramHandle: string;
+  instagramFollowers: number;
+  engagementRate: number;
+  heatTrend7d: number;
+  brandTier: 'Emerging' | 'Growing' | 'Marquee';
+  heroImageUrl?: string;
+  latestSignal: string; // Will be derived from signals
 }
 
 export interface ClientsState {
