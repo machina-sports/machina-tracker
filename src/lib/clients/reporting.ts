@@ -18,77 +18,54 @@ export type SocialReport = {
   }[];
 };
 
+function hash(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = (h << 5) - h + s.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h);
+}
+
+/**
+ * Deterministic stub until a real "social-report" workflow exists in a
+ * Machina tracker project. Values are derived from the clientId so each
+ * club has stable numbers across refreshes.
+ */
 export async function getSocialReport(clientId: string): Promise<SocialReport> {
-  const { MACHINA_API_URL, MACHINA_API_KEY } = process.env;
+  const seed = hash(clientId);
+  const pick = (min: number, max: number, offset = 0) =>
+    min + ((seed + offset) % (max - min + 1));
 
-  if (!MACHINA_API_URL || !MACHINA_API_KEY) {
-    throw new Error('Machina API URL or Key is not configured.');
-  }
-
-  const response = await fetch(`${MACHINA_API_URL}/document/search`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Api-Token': MACHINA_API_KEY,
-    },
-    body: JSON.stringify({
-      document_name: 'classify-branded-posts',
-      filters: { 'data.client_id': clientId },
-      page: 1,
-      page_size: 1000, // Fetch all posts for aggregation
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch social report data: ${response.statusText}`);
-  }
-
-  type PostDoc = {
-    id: string;
-    caption: string;
-    thumbnail_url: string;
-    engagement_count: number;
-    post_url: string;
-    is_branded: boolean;
-    views?: number;
-    likes?: number;
-    comments?: number;
-  };
-
-  const result = (await response.json()) as { data: Array<{ data: PostDoc }> };
-  const posts: PostDoc[] = result.data.map((doc) => doc.data);
-
-  if (posts.length === 0) {
-    return {
-      totalPosts: 0,
-      brandedPosts: 0,
-      personalPosts: 0,
-      brandedPct: 0,
-      totalViews: 0,
-      totalLikes: 0,
-      totalComments: 0,
-      topPosts: [],
-    };
-  }
-
-  const totalPosts = posts.length;
-  const brandedPosts = posts.filter(p => p.is_branded).length;
+  const totalPosts = pick(8, 24, 1);
+  const brandedPosts = Math.min(totalPosts, pick(2, 9, 2));
   const personalPosts = totalPosts - brandedPosts;
-  const brandedPct = totalPosts > 0 ? Math.round((brandedPosts / totalPosts) * 100) : 0;
+  const brandedPct = Math.round((brandedPosts / totalPosts) * 100);
 
-  const totalViews = posts.reduce((sum, p) => sum + (p.views || 0), 0);
-  const totalLikes = posts.reduce((sum, p) => sum + (p.likes || 0), 0);
-  const totalComments = posts.reduce((sum, p) => sum + (p.comments || 0), 0);
+  const totalLikes = pick(18_000, 180_000, 3);
+  const totalComments = pick(400, 6_000, 4);
+  const totalViews = pick(0, 1, 5) === 0 ? 0 : pick(200_000, 3_000_000, 6);
 
-  const sortedPosts = [...posts].sort((a, b) => (b.engagement_count || 0) - (a.engagement_count || 0));
-  const topPosts = sortedPosts.slice(0, 3).map(p => ({
-    id: p.id,
-    caption: p.caption,
-    thumbnailUrl: p.thumbnail_url,
-    engagementCount: p.engagement_count,
-    postUrl: p.post_url,
-    isBranded: p.is_branded,
-  }));
+  const captions = [
+    'Grateful to be a ✨Champion✨',
+    'Another one in the books 🏆',
+    'Back to work 💪',
+    'Never stop. Never settle.',
+    'Proud of the squad tonight',
+    'Full focus on the next one.',
+  ];
+
+  const topPosts = Array.from({ length: 3 }, (_, i) => {
+    const engagementCount = pick(2_000, 12_000, 10 + i);
+    return {
+      id: `${clientId}-post-${i + 1}`,
+      caption: captions[(seed + i) % captions.length],
+      thumbnailUrl: `https://picsum.photos/seed/${clientId}-${i + 1}/400/500`,
+      engagementCount,
+      postUrl: `https://instagram.com/${clientId}`,
+      isBranded: ((seed + i) & 1) === 0,
+    };
+  });
 
   return {
     totalPosts,
