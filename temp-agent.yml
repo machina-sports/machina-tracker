@@ -1,0 +1,11 @@
+agent:
+  name: temp-get-connector-info-agent
+  description: "Temporary agent to get connector info"
+  workflows:
+    - name: "temp-get-connector-info-workflow"
+      description: "Workflow to get connector info"
+      tasks:
+        - name: get_info
+          type: connector
+          connector:
+            name: machina-football-data

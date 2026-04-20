@@ -1,0 +1,10 @@
+workflow:
+  name: get-brazilian-teams
+  tasks:
+    - name: get_teams
+      type: connector
+      connector:
+        name: machina-football-data
+        command: get-teams
+      inputs:
+        league_id: "'BSA'"
